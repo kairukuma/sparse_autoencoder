@@ -14,13 +14,13 @@ __author__ = 'JEFFERYK','BOBW'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 PATCHWIDTH = 28
-N_HIDDEN = 64
+N_HIDDEN = 36
 N_INPUT = PATCHWIDTH**2
 N_OUTPUT = N_INPUT
-BETA = tf.constant(3.)
+BETA = tf.constant(5.)
 LAMBDA = tf.constant(.0001)
 RHO = tf.constant(0.01)
-EPSILON = .00001
+EPSILON = .000001
 
 
 def train():
@@ -173,7 +173,7 @@ def train():
         cost = tf.add(tf.add(cost_J , cost_reg ), cost_sparse)
         tf.summary.scalar('cost',cost)
 
-    optimizer = tf.train.AdamOptimizer().minimize(cost)
+    optimizer = tf.train.AdamOptimizer(0.01).minimize(cost)
 
     merged = tf.summary.merge_all()
     # writer = tf.summary.FileWriter('./sae_logs', sess.graph)
@@ -192,7 +192,7 @@ def train():
     while np.abs(c - c_old) > EPSILON :
         c,j,reg,sparse = sess.run([cost,cost_J,cost_reg,cost_sparse], feed_dict={x: samples})
         sess.run([optimizer], feed_dict={x: samples})
-        if i % 10 == 0:
+        if i % 100 == 0:
             c_old = c
             c,j,reg,sparse = sess.run([cost,cost_J,cost_reg,cost_sparse], feed_dict={x: samples})
             print ("EPOCH %d: COST = %f, LOSS = %f, REG_PENALTY = %f, SPARSITY_PENTALTY = %f" %(i,c,j,reg,sparse))
