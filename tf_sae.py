@@ -55,7 +55,7 @@ y_true = X
 
 activation = encode_op
 kl_div = kl_divergence(activation)
-cost_function = tf.reduce_sum(tf.pow(y_true - y_pred, 2)) # + sparse_reg * kl_div + l2_reg * (tf.reduce_sum(tf.square(Wd)) + tf.reduce_sum(tf.square(We)))
+cost_function = tf.reduce_sum(tf.pow(y_true - y_pred, 2)) / num_samples # + sparse_reg * kl_div + l2_reg * (tf.reduce_sum(tf.square(Wd)) + tf.reduce_sum(tf.square(We)))
 optimizer = tf.train.RMSPropOptimizer(learning_rate).minimize(cost_function)
 
 init = tf.global_variables_initializer()
