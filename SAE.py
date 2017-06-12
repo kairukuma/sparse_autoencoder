@@ -13,13 +13,13 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 NUMSAMPLES = 10000
 PATCHWIDTH = 8
-N_HIDDEN = 25
+N_HIDDEN = 36
 N_INPUT = PATCHWIDTH**2
 N_OUTPUT = N_INPUT
 BETA = tf.constant(3.)
 LAMBDA = tf.constant(.0001)
 RHO = tf.constant(0.01)
-EPSILON = .00001
+EPSILON = .000001
 
 
 def train():
@@ -179,7 +179,7 @@ def train():
     optimizer = tf.train.AdamOptimizer().minimize(cost)
 
     merged = tf.summary.merge_all()
-    writer = tf.summary.FileWriter('./sae_logs', sess.graph)
+    # writer = tf.summary.FileWriter('./sae_logs', sess.graph)
     # Initializing the variables
     init = tf.global_variables_initializer()
 
@@ -201,7 +201,7 @@ def train():
             displayWeights(sess.run(weights['hidden']))
             displayImageTest(images[:,:,vizImage])
         i += 1
-        writer.add_summary(summary, i)
+        #writer.add_summary(summary, i)
 
     print("Optimization Finished!")
 
